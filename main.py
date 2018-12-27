@@ -6,6 +6,8 @@ import time
 from torch.utils.data import DataLoader
 import torch.optim as optim
 
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--embedding_size', default=300)
 parser.add_argument('--batch_size', default=128)
@@ -13,12 +15,12 @@ parser.add_argument('--n_epoch', default=100)
 parser.add_argument('--hidden_size', default=300)
 parser.add_argument('--n_class', default=3)
 parser.add_argument('--pre_processed', default=True)
-parser.add_argument('--learning_rate', default=3e-4)
+parser.add_argument('--learning_rate', default=0.01)
 parser.add_argument('--l2_reg', default=0.001)
 parser.add_argument('--dropout', default=0.5)
 parser.add_argument('--max_aspect_len', default=0)
 parser.add_argument('--max_context_len', default=0)
-parser.add_argument('--dataset', default='data/restaurant/')
+parser.add_argument('--dataset', default='data/laptop/')
 parser.add_argument('--embedding_file_name', default='data/glove.840B.300d.txt')
 parser.add_argument('--embedding', default=0)
 parser.add_argument('--vocab_size', default=0)
