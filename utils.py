@@ -82,7 +82,7 @@ def read_data(word2id, max_aspect_len, max_context_len, dataset, pre_processed):
             raise IOError(ENOENT, 'Not a file', save_fname)
         return save_fname
     else:
-        aspects, contexts, labels = list(), list(), list()
+        aspects, contexts, labels, aspect_lens, context_lens = list(), list(), list(), list(), list()
         if not os.path.isfile(fname):
             raise IOError(ENOENT, 'Not a file', fname)
         lines = open(fname, 'r').readlines()
@@ -111,12 +111,15 @@ def read_data(word2id, max_aspect_len, max_context_len, dataset, pre_processed):
                 labels.append(1)
             elif polarity == 'positive':
                 labels.append(2)
-
+            aspect_lens.append(len(aspect_sptoks))
+            context_lens.append(len(context_sptoks) - 1)
         print("Read %s examples from %s" % (len(aspects), fname))
         aspects = np.asarray(aspects)
         contexts = np.asarray(contexts)
         labels = np.asarray(labels)
-        np.savez(save_fname, aspects=aspects, contexts=contexts, labels=labels)
+        aspect_lens = np.asarray(aspect_lens)
+        context_lens = np.asarray(context_lens)
+        np.savez(save_fname, aspects=aspects, contexts=contexts, labels=labels, aspect_lens=aspect_lens, context_lens=context_lens)
         return save_fname
 
 def load_word_embeddings(fname, embedding_dim, word2id):
